@@ -7,7 +7,7 @@ Date           : 21-07-2024
 
 Technology Stack
 Frontend: ReactJS
-Backend :  Node.js
+Backend :  Node.js with express
 Database: MongoDB (Atlas)
 
 
