@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece Store</title>
+    <title>Clothes - One Piece Store</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -27,11 +27,9 @@
         <a href="/shopping-cart">Shopping Cart</a>
     </nav>
     <div class="container">
-        <h1>Welcome to the One Piece Store</h1>
-        <h2>Products</h2>
+        <h1 class="page-title">Clothes</h1>
         <div class="product-list">
             <% products.forEach(product => { %>
-                
                 <div class="product-item">
                     <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
                     <div class="product-details">

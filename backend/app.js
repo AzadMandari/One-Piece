@@ -5,7 +5,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
-const cartRoutes = require('./routes/cartRoutes');
+const cartRoutes = require('./routes/cartRoutes');  // Import cart routes
 const orderRoutes = require('./routes/orderRoutes');
 const Product = require('./models/Product');
 
@@ -22,8 +22,9 @@ const mongoUri = 'mongodb+srv://mandariazad6666:aSSNGPDJA1@cluster0.htk49su.mong
 mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+}).then(() => {
+    console.log('MongoDB connected');
+}).catch(err => console.log(err));
 
 app.use(session({
     secret: 'your-secret-key',
@@ -34,7 +35,7 @@ app.use(session({
 
 app.use('/users', userRoutes);
 app.use('/api/products', productRoutes);
-app.use('/cart', cartRoutes);
+app.use('/cart', cartRoutes);  // Use cart routes
 app.use('/order', orderRoutes);
 
 app.get('/', async (req, res) => {
@@ -68,17 +69,49 @@ app.get('/shopping-cart', (req, res) => {
     res.render('shoppingCart', { cart });
 });
 
-app.get('/category/:category', async (req, res) => {
-    const validCategories = ['Mobile Cases', 'Clothes', 'Wall Posters', 'Toys'];
-    const category = req.params.category.split('-').join(' ');
-
-    if (!validCategories.includes(category)) {
-        return res.status(404).send('Category not found');
-    }
-
+app.get('/category/mobile-cases', async (req, res) => {
     try {
-        const products = await Product.find({ category });
-        res.render('category', { products, category });
+        const products = await Product.find({ category: 'Mobile Cases' });
+        res.render('mobileCases', { products });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/category/clothes', async (req, res) => {
+    try {
+        const products = await Product.find({ category: 'Clothes' });
+        res.render('clothes', { products });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/category/wall-posters', async (req, res) => {
+    try {
+        const products = await Product.find({ category: 'Wall Posters' });
+        res.render('wallPosters', { products });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/category/toys', async (req, res) => {
+    try {
+        const products = await Product.find({ category: 'Toys' });
+        res.render('toys', { products });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/product/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).send('Product not found');
+        }
+        res.render('productDetails', { product });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

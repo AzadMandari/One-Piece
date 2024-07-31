@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Piece Store</title>
+    <title><%= product.name %> - One Piece Store</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -27,23 +27,19 @@
         <a href="/shopping-cart">Shopping Cart</a>
     </nav>
     <div class="container">
-        <h1>Welcome to the One Piece Store</h1>
-        <h2>Products</h2>
-        <div class="product-list">
-            <% products.forEach(product => { %>
-                
-                <div class="product-item">
-                    <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
-                    <div class="product-details">
-                        <h2 class="product-name"><%= product.name %></h2>
-                        <p class="product-description"><%= product.description %></p>
-                        <p class="product-price">Price: $<%= product.price %></p>
-                        <p class="product-category">Category: <%= product.category %></p>
-                        <p class="product-stock">Stock: <%= product.stock %></p>
-                    </div>
-                    <a href="/product/<%= product._id %>" class="button">View Details</a>
-                </div>
-            <% }) %>
+        <div class="product-details-container">
+            <h1><%= product.name %></h1>
+            <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
+            <p><%= product.description %></p>
+            <p>Price: $<%= product.price %></p>
+            <p>Category: <%= product.category %></p>
+            <p>Stock: <%= product.stock %></p>
+            <form action="/cart/add" method="POST" class="add-to-cart-form">
+                <input type="hidden" name="productId" value="<%= product._id %>">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="<%= product.stock %>">
+                <button type="submit" class="button">Add to Cart</button>
+            </form>
         </div>
     </div>
 </body>

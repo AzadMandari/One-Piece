@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Shopping Cart - One Piece Store</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -13,6 +13,15 @@
     </header>
     <nav>
         <a href="/">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">Categories &#x25BC;</button>
+            <div class="dropdown-content">
+                <a href="/category/mobile-cases">Mobile Cases</a>
+                <a href="/category/clothes">Clothes</a>
+                <a href="/category/wall-posters">Wall Posters</a>
+                <a href="/category/toys">Toys</a>
+            </div>
+        </div>
         <a href="/login">Login</a>
         <a href="/admin">Admin</a>
         <a href="/shopping-cart">Shopping Cart</a>
@@ -20,29 +29,36 @@
     <div class="container">
         <h1 class="page-title">Shopping Cart</h1>
         <div class="cart-list">
-            <% if (cart.length > 0) { %>
-                <ul>
-                    <% cart.forEach(item => { %>
-                        <li>
-                            <p>Product ID: <%= item.productId %></p>
-                            <p>Quantity: <%= item.quantity %></p>
-                            <form action="/cart/remove" method="POST">
-                                <input type="hidden" name="productId" value="<%= item.productId %>">
-                                <button type="submit">Remove</button>
-                            </form>
-                            <form action="/cart/update" method="POST">
-                                <input type="hidden" name="productId" value="<%= item.productId %>">
-                                <input type="number" name="quantity" value="<%= item.quantity %>">
-                                <button type="submit">Update</button>
-                            </form>
-                        </li>
-                    <% }) %>
-                </ul>
-                <form action="/order/checkout" method="POST">
-                    <button type="submit">Checkout</button>
-                </form>
+            <% if (cart.length === 0) { %>
+                <p>Your cart is empty.</p>
             <% } else { %>
-                <p>Your cart is empty</p>
+                <% cart.forEach(item => { %>
+                    <div class="cart-item">
+                        <img src="<%= item.imageUrl %>" alt="<%= item.name %>" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h2 class="cart-item-name"><%= item.name %></h2>
+                            <p class="cart-item-price">Price: $<%= item.price %></p>
+                            <p class="cart-item-quantity">Quantity: 
+                                <form action="/cart/update" method="POST" class="update-form">
+                                    <input type="hidden" name="productId" value="<%= item.product %>">
+                                    <input type="number" name="quantity" value="<%= item.quantity %>" min="1">
+                                    <button type="submit" class="button">Update</button>
+                                </form>
+                            </p>
+                            <p class="cart-item-total">Total: $<%= item.price * item.quantity %></p>
+                            <form action="/cart/remove" method="POST" class="remove-form">
+                                <input type="hidden" name="productId" value="<%= item.product %>">
+                                <button type="submit" class="button remove-button">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+                <div class="cart-total">
+                    <h2>Total Amount: $<%= cart.reduce((acc, item) => acc + item.price * item.quantity, 0) %></h2>
+                    <form action="/checkout" method="GET">
+                        <button type="submit" class="button">Proceed to Checkout</button>
+                    </form>
+                </div>
             <% } %>
         </div>
     </div>
