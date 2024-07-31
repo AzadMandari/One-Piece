@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/Logo.jpg" alt="One Piece Logo" class="logo">
+        <h1>One Piece</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/login">Login</a>
+        <a href="/admin">Admin</a>
+        <a href="/shopping-cart">Shopping Cart</a>
+    </nav>
+    <div class="container">
+        <h1 class="page-title">Shopping Cart</h1>
+        <div class="cart-list">
+            <% if (cart.length > 0) { %>
+                <ul>
+                    <% cart.forEach(item => { %>
+                        <li>
+                            <p>Product ID: <%= item.productId %></p>
+                            <p>Quantity: <%= item.quantity %></p>
+                            <form action="/cart/remove" method="POST">
+                                <input type="hidden" name="productId" value="<%= item.productId %>">
+                                <button type="submit">Remove</button>
+                            </form>
+                            <form action="/cart/update" method="POST">
+                                <input type="hidden" name="productId" value="<%= item.productId %>">
+                                <input type="number" name="quantity" value="<%= item.quantity %>">
+                                <button type="submit">Update</button>
+                            </form>
+                        </li>
+                    <% }) %>
+                </ul>
+                <form action="/order/checkout" method="POST">
+                    <button type="submit">Checkout</button>
+                </form>
+            <% } else { %>
+                <p>Your cart is empty</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

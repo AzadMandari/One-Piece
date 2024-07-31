@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece Store</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/Logo.jpg" alt="One Piece Logo" class="logo">
+        <h1>One Piece</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">Categories &#x25BC;</button>
+            <div class="dropdown-content">
+                <a href="/category/mobile-cases">Mobile Cases</a>
+                <a href="/category/clothes">Clothes</a>
+                <a href="/category/wall-posters">Wall Posters</a>
+                <a href="/category/toys">Toys</a>
+            </div>
+        </div>
+        <a href="/login">Login</a>
+        <a href="/admin">Admin</a>
+        <a href="/shopping-cart">Shopping Cart</a>
+    </nav>
+    <div class="container">
+        <h1>Welcome to the One Piece Store</h1>
+
+        <h2>Products</h2>
+        <div class="product-list">
+            <% const products = [
+                {
+                    name: "Straw Hat",
+                    description: "A stylish straw hat worn by Monkey D. Luffy.",
+                    price: 19.99,
+                    category: "Clothes",
+                    stock: 100,
+                    imageUrl: "/images/Strawhat.jpeg"
+                },
+                {
+                    name: "Roronoa Zoro's Swords",
+                    description: "A set of three swords used by Roronoa Zoro.",
+                    price: 299.99,
+                    category: "Toys",
+                    stock: 50,
+                    imageUrl: "/images/zoroswords.jpeg"
+                },
+                {
+                    name: "Nami's Clima-Tact",
+                    description: "A powerful weapon used by Nami.",
+                    price: 149.99,
+                    category: "Toys",
+                    stock: 75,
+                    imageUrl: "/images/namibaton.jpeg"
+                },
+                {
+                    name: "Sanji's Chef Uniform",
+                    description: "The official chef uniform worn by Sanji.",
+                    price: 79.99,
+                    category: "Clothes",
+                    stock: 200,
+                    imageUrl: "/images/sanjiuniform.jpeg"
+                },
+                {
+                    name: "Tony Tony Chopper Plush",
+                    description: "A cute plush toy of Tony Tony Chopper.",
+                    price: 24.99,
+                    category: "Toys",
+                    stock: 150,
+                    imageUrl: "/images/chopperplush.jpeg"
+                }
+            ]; %>
+            <% products.forEach(product => { %>
+                <div class="product-item">
+                    <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
+                    <h2><%= product.name %></h2>
+                    <p><%= product.description %></p>
+                    <p>Price: $<%= product.price %></p>
+                    <p>Category: <%= product.category %></p>
+                    <a href="/product/<%= product._id %>" class="button">View Details</a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>

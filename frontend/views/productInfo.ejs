@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= product.name %> - One Piece Store</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/Logo.jpg" alt="One Piece Logo">
+        <h1>One Piece</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/login">Login</a>
+        <a href="/admin">Admin</a>
+        <a href="/shopping-cart">Shopping Cart</a>
+    </nav>
+    <div class="container">
+        <h1><%= product.name %></h1>
+        <p><%= product.description %></p>
+        <p>Price: $<%= product.price %></p>
+        <p>Category: <%= product.category %></p>
+        <p>Stock: <%= product.stock %></p>
+        <a href="/shopping-cart" class="button">Add to Cart</a>
+        <a href="/" class="button">Back to Products</a>
+    </div>
+</body>
+</html>

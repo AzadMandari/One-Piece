@@ -69,3 +69,5 @@ Communication with Backend:
 Notes:
 1.The project is set up using Git and GitHub for version control.
 2.Further development will include implementing user interfaces for product listings, shopping cart, and checkout.
+
+Git Link:

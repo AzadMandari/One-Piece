@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/Logo.jpg" alt="One Piece Logo" class="logo">
+        <h1>One Piece</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/login">Login</a>
+        <a href="/admin">Admin</a>
+        <a href="/shopping-cart">Shopping Cart</a>
+    </nav>
+    <div class="container">
+        <h1 class="page-title">Admin Panel</h1>
+        <form action="/api/products" method="POST">
+            <div>
+                <label for="name">Product Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" required>
+            </div>
+            <div>
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+            <div>
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" required>
+            </div>
+            <div>
+                <label for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" required>
+            </div>
+            <div>
+                <label for="imageUrl">Image URL</label>
+                <input type="text" id="imageUrl" name="imageUrl" required>
+            </div>
+            <button type="submit">Add Product</button>
+        </form>
+    </div>
+</body>
+</html>

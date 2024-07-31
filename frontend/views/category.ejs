@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= category %> - One Piece Store</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/Logo.jpg" alt="One Piece Logo" class="logo">
+        <h1>One Piece</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">Categories &#x25BC;</button>
+            <div class="dropdown-content">
+                <a href="/category/Mobile-Cases">Mobile Cases</a>
+                <a href="/category/Clothes">Clothes</a>
+                <a href="/category/Wall-Posters">Wall Posters</a>
+                <a href="/category/Toys">Toys</a>
+            </div>
+        </div>
+        <a href="/login">Login</a>
+        <a href="/admin">Admin</a>
+        <a href="/shopping-cart">Shopping Cart</a>
+    </nav>
+    <div class="container">
+        <h1 class="page-title"><%= category %></h1>
+        <div class="product-list">
+            <% products.forEach(product => { %>
+                <div class="product-item">
+                    <img src="<%= product.imageUrl %>" alt="<%= product.name %>" class="product-image">
+                    <div class="product-details">
+                        <h2 class="product-name"><%= product.name %></h2>
+                        <p class="product-description"><%= product.description %></p>
+                        <p class="product-price">Price: $<%= product.price %></p>
+                        <p class="product-category">Category: <%= product.category %></p>
+                        <p class="product-stock">Stock: <%= product.stock %></p>
+                    </div>
+                    <a href="/product/<%= product._id %>" class="button">View Details</a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>
