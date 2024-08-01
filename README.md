@@ -86,3 +86,7 @@ Backend file should be opened before executing
 *node app.js
 ex:C:\Users\manda\OneDrive\Desktop\OnePiece\backend>node app.js
 
+Special modules that might be needed to be installed:
+npm install express-session
+npm install connect-mongo
+npm install bcrypt
