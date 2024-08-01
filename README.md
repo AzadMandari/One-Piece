@@ -51,6 +51,12 @@ Order_Items:
 2.product_id
 3.Items
 
+category schema:
+1.Mobile Cases
+2.Clothes
+3.Wallpapers
+4.Toys
+
 Frontend Setup:
 
 User Interfaces:
@@ -71,3 +77,12 @@ Notes:
 2.Further development will include implementing user interfaces for product listings, shopping cart, and checkout.
 
 Git Link:
+https://github.com/AzadMandari/One-Piece.git
+
+
+Instructions on running project:
+Backend file should be opened before executing
+*cd backend
+*node app.js
+ex:C:\Users\manda\OneDrive\Desktop\OnePiece\backend>node app.js
+
