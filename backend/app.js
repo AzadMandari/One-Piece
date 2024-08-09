@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');  // Import cart routes
 const orderRoutes = require('./routes/orderRoutes');
+const adminRoutes = require('./routes/adminRoutes'); // Admin routes for CRUD operations
 const Product = require('./models/Product');
 
 const app = express();
@@ -27,17 +28,22 @@ mongoose.connect(mongoUri, {
 }).catch(err => console.log(err));
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: '1234',
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: mongoUri })
 }));
 
+// User Routes
 app.use('/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/cart', cartRoutes);  // Use cart routes
-app.use('/order', orderRoutes);
+app.use('/order', orderRoutes); // Use order routes
 
+// Admin Routes
+app.use('/admin', adminRoutes); // Routes for admin login and dashboard
+
+// Home Page
 app.get('/', async (req, res) => {
     try {
         const products = await Product.find();
@@ -48,6 +54,7 @@ app.get('/', async (req, res) => {
     }
 });
 
+// User Authentication Routes
 app.get('/login', (req, res) => {
     res.render('login');
 });
@@ -56,6 +63,7 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
+// Admin Authentication and Dashboard Route
 app.get('/admin', (req, res) => {
     if (req.session.user && req.session.user.isAdmin) {
         res.render('admin');
@@ -64,11 +72,49 @@ app.get('/admin', (req, res) => {
     }
 });
 
+// Shopping Cart Routes
 app.get('/shopping-cart', (req, res) => {
     const cart = req.session.cart || [];
     res.render('shoppingCart', { cart });
 });
 
+// Checkout Routes
+app.get('/checkout', (req, res) => {
+    const cart = req.session.cart || [];
+    if (cart.length === 0) {
+        return res.redirect('/shopping-cart');
+    }
+    res.render('checkout');
+});
+
+app.post('/checkout/confirm', (req, res) => {
+    const { name, email, address, phone } = req.body;
+    const order = {
+        name,
+        email,
+        address,
+        phone
+    };
+    req.session.order = order;
+    res.redirect('/order/summary');
+});
+
+app.get('/order/summary', (req, res) => {
+    const order = req.session.order;
+    const cart = req.session.cart || [];
+    if (!order || cart.length === 0) {
+        return res.redirect('/shopping-cart');
+    }
+    res.render('orderSummary', { order, cart });
+});
+
+app.post('/order/complete', (req, res) => {
+    req.session.cart = [];
+    req.session.order = null;
+    res.send('<h1>Thank you for your order!</h1><p>Your order has been placed successfully.</p>');
+});
+
+// Category Routes
 app.get('/category/mobile-cases', async (req, res) => {
     try {
         const products = await Product.find({ category: 'Mobile Cases' });
@@ -105,6 +151,7 @@ app.get('/category/toys', async (req, res) => {
     }
 });
 
+// Product Details Route
 app.get('/product/:id', async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -116,6 +163,9 @@ app.get('/product/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+// Admin CRUD Operations for Categories and Items
+app.use('/admin', adminRoutes); // Ensure this is present to load all admin-specific routes
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

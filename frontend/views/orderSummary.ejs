@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary - One Piece Store</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/Logo.jpg" alt="One Piece Logo" class="logo">
+        <h1>One Piece</h1>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">Categories &#x25BC;</button>
+            <div class="dropdown-content">
+                <a href="/category/mobile-cases">Mobile Cases</a>
+                <a href="/category/clothes">Clothes</a>
+                <a href="/category/wall-posters">Wall Posters</a>
+                <a href="/category/toys">Toys</a>
+            </div>
+        </div>
+        <a href="/login">Login</a>
+        <a href="/admin">Admin</a>
+        <a href="/shopping-cart">Shopping Cart</a>
+    </nav>
+    <div class="container">
+        <h1 class="page-title">Order Summary</h1>
+        <div class="order-summary">
+            <h2>Shipping Information</h2>
+            <p><strong>Name:</strong> <%= order.name %></p>
+            <p><strong>Email:</strong> <%= order.email %></p>
+            <p><strong>Address:</strong> <%= order.address %></p>
+            <p><strong>Phone:</strong> <%= order.phone %></p>
+            
+            <h2>Order Details</h2>
+            <% cart.forEach(item => { %>
+                <div class="cart-item">
+                    <img src="<%= item.imageUrl %>" alt="<%= item.name %>" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h2 class="cart-item-name"><%= item.name %></h2>
+                        <p class="cart-item-price">Price: $<%= item.price %></p>
+                        <p class="cart-item-quantity">Quantity: <%= item.quantity %></p>
+                        <p class="cart-item-total">Total: $<%= item.price * item.quantity %></p>
+                    </div>
+                </div>
+            <% }) %>
+            <div class="cart-total">
+                <h2>Total Amount: $<%= cart.reduce((acc, item) => acc + item.price * item.quantity, 0) %></h2>
+            </div>
+          
+            <form action="/cart/update" method="POST" class="update-form">
+                <button type="submit" class="button update-button">Update</button>
+            </form>
+            
+            <form action="/cart/remove" method="POST" class="remove-form">
+                <button type="submit" class="button remove-button">Remove</button>
+            </form>
+            
+            <form action="/order/complete" method="POST">
+                <button type="submit" class="button complete-order-button">Complete Order</button>
+            </form>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -3,22 +3,11 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
-// Hardcoded admin credentials
-const adminCredentials = {
-    username: 'AJJI',
-    password: 'Onepiece'
-};
-
-// Login Route
+// Login Route for Users
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-
-    if (username === adminCredentials.username && password === adminCredentials.password) {
-        req.session.user = { username, isAdmin: true };
-        return res.redirect('/');
-    }
-
-    try {
+    res.render('/adminDashboard.ejs');
+   /* try {
         const user = await User.findOne({ username });
         if (user && await bcrypt.compare(password, user.password)) {
             req.session.user = user;
@@ -28,20 +17,21 @@ router.post('/login', async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
-    }
+    }*/
 });
 
-// Logout Route
+
+// Logout Route for Users
 router.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });
 
-// Register Route (for non-admin users)
+// Register Route for Users
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, password: hashedPassword, isAdmin: false });
+    const user = new User({ username, password: hashedPassword });
     try {
         await user.save();
         res.status(201).send('User registered');

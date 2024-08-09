@@ -1,41 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const Order = require('../models/Order');
-const Product = require('../models/Product');
 
-// Place an order
-router.post('/checkout', async (req, res) => {
-    const { cart } = req.session;
-    if (!cart || cart.length === 0) {
-        return res.status(400).send('Cart is empty');
+// Handle checkout form submission and redirect to order summary
+router.post('/confirm', (req, res) => {
+    const { name, email, address, phone } = req.body;
+    const order = {
+        name,
+        email,
+        address,
+        phone
+    };
+    req.session.order = order;
+    res.redirect('/checkout/summary');
+});
+
+// Display the order summary
+router.get('/summary', (req, res) => {
+    const order = req.session.order;
+    const cart = req.session.cart || [];
+    if (!order || cart.length === 0) {
+        return res.redirect('/shopping-cart');
     }
+    res.render('orderSummary', { order, cart });
+});
 
-    try {
-        const orderItems = await Promise.all(cart.map(async item => {
-            const product = await Product.findById(item.productId);
-            if (product) {
-                return {
-                    product: product._id,
-                    quantity: item.quantity,
-                    price: product.price
-                };
-            }
-        }));
-
-        const totalPrice = orderItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-
-        const order = new Order({
-            user: req.session.user._id,
-            items: orderItems,
-            totalPrice
-        });
-
-        await order.save();
-        req.session.cart = [];
-        res.send('Order placed successfully!');
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+// Complete the order
+router.post('/complete', (req, res) => {
+    // Clear the cart and order information (simulate order completion)
+    req.session.cart = [];
+    req.session.order = null;
+    res.send('<h1>Thank you for your order!</h1><p>Your order has been placed successfully.</p>');
 });
 
 module.exports = router;

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Items</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <h1>Manage Items</h1>
+    <form action="/admin/items" method="POST">
+        <input type="text" name="name" placeholder="Item Name" required>
+        <input type="text" name="description" placeholder="Item Description" required>
+        <input type="number" name="price" placeholder="Price" required>
+        <select name="category" required>
+            <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"><%= category.name %></option>
+            <% }) %>
+        </select>
+        <input type="number" name="stock" placeholder="Stock" required>
+        <input type="text" name="imageUrl" placeholder="Image URL">
+        <button type="submit">Add Item</button>
+    </form>
+
+    <ul>
+        <% items.forEach(item => { %>
+            <li>
+                <form action="/admin/items/<%= item._id %>/update" method="POST">
+                    <input type="text" name="name" value="<%= item.name %>" required>
+                    <input type="text" name="description" value="<%= item.description %>" required>
+                    <input type="number" name="price" value="<%= item.price %>" required>
+                    <select name="category" required>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category._id %>" <%= item.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+                        <% }) %>
+                    </select>
+                    <input type="number" name="stock" value="<%= item.stock %>" required>
+                    <input type="text" name="imageUrl" value="<%= item.imageUrl %>">
+                    <button type="submit">Update</button>
+                </form>
+                <form action="/admin/items/<%= item._id %>/delete" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <% }) %>
+    </ul>
+
+    <a href="/admin/dashboard">Back to Dashboard</a>
+</body>
+</html>
