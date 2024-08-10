@@ -6,10 +6,11 @@ const bcrypt = require('bcrypt');
 // Login Route for Users
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    res.render('/adminDashboard.ejs');
-   /* try {
-        const user = await User.findOne({ username });
-        if (user && await bcrypt.compare(password, user.password)) {
+    try {
+        const user = await User.findOne({username});
+    
+        
+        if (user && password === user.password) {
             req.session.user = user;
             return res.redirect('/');
         } else {
@@ -17,9 +18,8 @@ router.post('/login', async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({ message: err.message });
-    }*/
+    }
 });
-
 
 // Logout Route for Users
 router.get('/logout', (req, res) => {
